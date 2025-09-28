@@ -57,11 +57,11 @@ func NewMetrics(namespace string) *Metrics {
 		interfaceInfo:             newDesc(namespace, "interface_info", "", []string{"id", "interface", "comment", "internet", "parent_interface", "ip_addr", "display"}),
 		deviceCount:               newDesc(namespace, "device_count", "", nil),
 		deviceInfo:                newDesc(namespace, "device_info", "", []string{"id", "mac", "hostname", "ip_addr", "comment", "display"}),
-		networkUploadTotalBytes:   newDesc(namespace, "network_upload_total_bytes", "", []string{"id", "display"}),
-		networkDownloadTotalBytes: newDesc(namespace, "network_download_total_bytes", "", []string{"id", "display"}),
-		networkUploadSpeedBytes:   newDesc(namespace, "network_upload_speed_bytes", "", []string{"id", "display"}),
-		networkDownloadSpeedBytes: newDesc(namespace, "network_download_speed_bytes", "", []string{"id", "display"}),
-		networkConnectCount:       newDesc(namespace, "network_connect_count", "", []string{"id", "display"}),
+		networkUploadTotalBytes:   newDesc(namespace, "network_upload_total_bytes", "", []string{"id", "display", "ip_addr"}),
+		networkDownloadTotalBytes: newDesc(namespace, "network_download_total_bytes", "", []string{"id", "display", "ip_addr"}),
+		networkUploadSpeedBytes:   newDesc(namespace, "network_upload_speed_bytes", "", []string{"id", "display", "ip_addr"}),
+		networkDownloadSpeedBytes: newDesc(namespace, "network_download_speed_bytes", "", []string{"id", "display", "ip_addr"}),
+		networkConnectCount:       newDesc(namespace, "network_connect_count", "", []string{"id", "display", "ip_addr"}),
 	}
 }
 
@@ -152,31 +152,31 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			m.networkUploadTotalBytes,
 			prometheus.GaugeValue,
 			float64(sysStat.Stream.TotalUp),
-			"host", "host",
+			"host", "host", "host",
 		)
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadTotalBytes,
 			prometheus.GaugeValue,
 			float64(sysStat.Stream.TotalDown),
-			"host", "host",
+			"host", "host", "host",
 		)
 		ch <- prometheus.MustNewConstMetric(
 			m.networkUploadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(sysStat.Stream.Upload),
-			"host", "host",
+			"host", "host", "host",
 		)
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(sysStat.Stream.Download),
-			"host", "host",
+			"host", "host", "host",
 		)
 		ch <- prometheus.MustNewConstMetric(
 			m.networkConnectCount,
 			prometheus.GaugeValue,
 			float64(sysStat.Stream.ConnectNum),
-			"host", "host",
+			"host", "host", "host",
 		)
 	}
 
@@ -278,28 +278,28 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			m.networkUploadTotalBytes,
 			prometheus.GaugeValue,
 			float64(i.TotalUp),
-			interfaceID, display,
+			interfaceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadTotalBytes,
 			prometheus.GaugeValue,
 			float64(i.TotalDown),
-			interfaceID, display,
+			interfaceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkUploadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(i.Upload),
-			interfaceID, display,
+			interfaceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(i.Download),
-			interfaceID, display,
+			interfaceID, display, i.IpAddr,
 		)
 
 		if interfaceConnectCount, err := strconv.Atoi(i.ConnectNum); err == nil {
@@ -307,7 +307,7 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 				m.networkConnectCount,
 				prometheus.GaugeValue,
 				float64(interfaceConnectCount),
-				interfaceID, display,
+				interfaceID, display, i.IpAddr,
 			)
 		}
 	}
@@ -333,35 +333,35 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			m.networkUploadTotalBytes,
 			prometheus.GaugeValue,
 			float64(i.TotalUp),
-			deviceID, display,
+			deviceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkUploadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(i.Upload),
-			deviceID, display,
+			deviceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadTotalBytes,
 			prometheus.GaugeValue,
 			float64(i.TotalDown),
-			deviceID, display,
+			deviceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkDownloadSpeedBytes,
 			prometheus.GaugeValue,
 			float64(i.Download),
-			deviceID, display,
+			deviceID, display, i.IpAddr,
 		)
 
 		ch <- prometheus.MustNewConstMetric(
 			m.networkConnectCount,
 			prometheus.GaugeValue,
 			float64(i.ConnectNum),
-			deviceID, display,
+			deviceID, display, i.IpAddr,
 		)
 	}
 }
