@@ -1464,7 +1464,7 @@
           "expr": "ikuai_network_upload_speed_bytes{id=~\"device/.*\"}",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{display}}",
+          "legendFormat": "{{display}} [{{ip_addr}}]",
           "range": true,
           "refId": "A"
         }
@@ -1569,7 +1569,7 @@
           "expr": "ikuai_network_download_speed_bytes{id=~\"device/.*\"}",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{display}}",
+          "legendFormat": "{{display}} [{{ip_addr}}]",
           "range": true,
           "refId": "A"
         }
@@ -1674,7 +1674,7 @@
           "expr": "ikuai_network_connect_count{id=~\"device/.*\"}",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{display}}",
+          "legendFormat": "{{display}} [{{ip_addr}}]",
           "range": true,
           "refId": "A"
         }
