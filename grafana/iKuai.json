@@ -124,6 +124,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -131,9 +132,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -142,7 +145,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_up{id=\"host\"}",
+          "expr": "ikuai_up{id=\"host\",instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -191,6 +194,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -198,9 +202,11 @@
           "fields": "",
           "values": true
         },
-        "textMode": "name"
+        "showPercentChange": false,
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -209,7 +215,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_version",
+          "expr": "ikuai_version{instance=\"$instance\"}",
           "format": "time_series",
           "instant": true,
           "legendFormat": "iKuai {{ver_string}}",
@@ -268,8 +274,16 @@
       "id": 6,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -279,9 +293,10 @@
           "values": false
         },
         "showUnfilled": true,
+        "sizing": "auto",
         "valueMode": "hidden"
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -290,7 +305,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_cpu_usage_ratio",
+          "expr": "ikuai_cpu_usage_ratio{instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "{{id}}",
           "range": false,
@@ -316,7 +331,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -431,6 +446,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -438,9 +454,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -449,7 +467,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_upload_total_bytes{id!~\"device/.*|.*lan.*\"}",
+          "expr": "ikuai_network_upload_total_bytes{id!~\"device/.*|.*lan.*\",instance=\"$instance\"}",
           "format": "time_series",
           "instant": true,
           "legendFormat": "上行 {{display}}",
@@ -463,7 +481,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_download_total_bytes{id!~\"device/.*|.*lan.*\"}",
+          "expr": "ikuai_network_download_total_bytes{id!~\"device/.*|.*lan.*\",instance=\"$instance\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "下行 {{display}}",
@@ -472,7 +490,6 @@
         }
       ],
       "title": "线路流量",
-      "transformations": [],
       "type": "stat"
     },
     {
@@ -515,6 +532,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -522,9 +540,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -533,7 +553,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_device_count",
+          "expr": "ikuai_device_count{instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -583,6 +603,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -590,9 +611,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -601,7 +624,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_connect_count{id=\"host\"}",
+          "expr": "ikuai_network_connect_count{id=\"host\",instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -652,6 +675,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -659,9 +683,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -670,7 +696,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_uptime{id=\"host\"}",
+          "expr": "ikuai_uptime{id=\"host\",instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -696,7 +722,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "yellow",
@@ -728,6 +754,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -735,9 +762,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -746,7 +775,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_memory_usage_kilo_bytes /ikuai_memory_size_kilo_bytes",
+          "expr": "ikuai_memory_usage_kilo_bytes{instance=\"$instance\"} /ikuai_memory_size_kilo_bytes{instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -773,7 +802,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -797,6 +826,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -804,9 +834,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -815,7 +847,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_upload_speed_bytes{id=\"host\"}",
+          "expr": "ikuai_network_upload_speed_bytes{id=\"host\",instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -842,7 +874,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -866,6 +898,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -873,9 +906,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -884,7 +919,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_download_speed_bytes{id=\"host\"}",
+          "expr": "ikuai_network_download_speed_bytes{id=\"host\",instance=\"$instance\"}",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -910,6 +945,9 @@
               "type": "auto"
             },
             "filterable": false,
+            "footer": {
+              "reducers": []
+            },
             "inspect": false
           },
           "mappings": [],
@@ -918,7 +956,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1002,7 +1040,7 @@
             },
             "properties": [
               {
-                "id": "custom.hidden",
+                "id": "custom.hideFrom.viz",
                 "value": true
               }
             ]
@@ -1022,6 +1060,18 @@
                 "value": "none"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ip_addr"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP"
+              }
+            ]
           }
         ]
       },
@@ -1034,19 +1084,11 @@
       "id": 27,
       "options": {
         "cellHeight": "md",
-        "footer": {
-          "countRows": false,
-          "enablePagination": false,
-          "fields": [],
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
+        "enablePagination": false,
         "frameIndex": 1,
         "showHeader": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -1055,7 +1097,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_upload_speed_bytes{id=~\"device/.*\"}-0",
+          "expr": "ikuai_network_upload_speed_bytes{id=~\"device/.*\",instance=\"$instance\"}-0",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -1069,7 +1111,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_download_speed_bytes{id=~\"device/.*\"}-0",
+          "expr": "ikuai_network_download_speed_bytes{id=~\"device/.*\",instance=\"$instance\"}-0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1084,7 +1126,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_connect_count{id=~\"device/.*\"}-0",
+          "expr": "ikuai_network_connect_count{id=~\"device/.*\",instance=\"$instance\"}-0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1107,7 +1149,8 @@
                 "display",
                 "Value #A",
                 "Value #B",
-                "Value #C"
+                "Value #C",
+                "ip_addr"
               ]
             }
           }
@@ -1163,6 +1206,9 @@
               "type": "auto"
             },
             "filterable": false,
+            "footer": {
+              "reducers": []
+            },
             "inspect": false
           },
           "mappings": [],
@@ -1171,7 +1217,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1259,6 +1305,18 @@
                 "value": "总计"
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ip_addr"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP"
+              }
+            ]
           }
         ]
       },
@@ -1271,19 +1329,17 @@
       "id": 28,
       "options": {
         "cellHeight": "md",
-        "footer": {
-          "countRows": false,
-          "enablePagination": false,
-          "fields": [],
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
+        "enablePagination": false,
         "frameIndex": 1,
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "上行流量"
+          }
+        ]
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -1292,7 +1348,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_upload_total_bytes{id=~\"device/.*\"}-0",
+          "expr": "ikuai_network_upload_total_bytes{id=~\"device/.*\",instance=\"$instance\"}-0",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -1306,7 +1362,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_download_total_bytes{id=~\"device/.*\"}",
+          "expr": "ikuai_network_download_total_bytes{id=~\"device/.*\",instance=\"$instance\"}",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -1327,8 +1383,271 @@
             "include": {
               "names": [
                 "display",
+                "ip_addr",
                 "Value #A",
                 "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "",
+            "binary": {
+              "left": "Value #A",
+              "reducer": "sum",
+              "right": "Value #B"
+            },
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "Value #A",
+                "Value #B"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Total"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "display"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "设备名称"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "上行流量"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "下行流量"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "lcd",
+                  "type": "gauge",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "总计"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "hostname"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "主机名称"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ip_addr"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "IP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mac"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "MAC"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 33,
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "上行流量"
+          }
+        ]
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sort_desc(increase(ikuai_network_upload_total_bytes{id=~\"device/.*\",instance=\"$instance\"}[$__range]) * on(id,instance) group_left(ip_addr,mac,hostname,comment) ikuai_device_info{instance=\"$instance\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sort_desc(increase(ikuai_network_download_total_bytes{id=~\"device/.*\",instance=\"$instance\"}[$__range]) * on(id,instance) group_left(ip_addr,mac,hostname,comment) ikuai_device_info{instance=\"$instance\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
+        }
+      ],
+      "title": "设备流量统计",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "display",
+                "ip_addr",
+                "mac",
+                "Value #A",
+                "Value #B",
+                "hostname"
               ]
             }
           }
@@ -1379,11 +1698,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1392,6 +1713,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -1402,6 +1724,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1417,7 +1740,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1433,7 +1756,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 24
       },
       "id": 15,
       "options": {
@@ -1449,10 +1772,12 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -1461,16 +1786,16 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_upload_speed_bytes{id=~\"device/.*\"}",
+          "expr": "ikuai_network_upload_speed_bytes{id=~\"device/.*\",instance=\"$instance\"}",
           "format": "time_series",
           "instant": false,
+          "interval": "",
           "legendFormat": "{{display}} [{{ip_addr}}]",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "历史上行",
-      "transformations": [],
       "type": "timeseries"
     },
     {
@@ -1484,11 +1809,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1497,6 +1824,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -1507,6 +1835,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1522,7 +1851,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1538,7 +1867,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 24
       },
       "id": 29,
       "options": {
@@ -1554,10 +1883,12 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -1566,7 +1897,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_download_speed_bytes{id=~\"device/.*\"}",
+          "expr": "ikuai_network_download_speed_bytes{id=~\"device/.*\",instance=\"$instance\"}",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{display}} [{{ip_addr}}]",
@@ -1575,7 +1906,6 @@
         }
       ],
       "title": "历史下行",
-      "transformations": [],
       "type": "timeseries"
     },
     {
@@ -1589,11 +1919,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1602,6 +1934,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
@@ -1612,6 +1945,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1626,7 +1960,229 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "ikuai_network_upload_total_bytes{id=~\"device/.*\",instance=\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{display}} [{{ip_addr}}]",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "累计上行",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 4,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "id": 32,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "ikuai_network_download_total_bytes{id=~\"device/.*\",instance=\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "legendFormat": "{{display}} [{{ip_addr}}]",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "累计下行",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 4,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -1642,7 +2198,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 40
       },
       "id": 30,
       "options": {
@@ -1659,10 +2215,12 @@
           "sortDesc": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -1671,7 +2229,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "ikuai_network_connect_count{id=~\"device/.*\"}",
+          "expr": "ikuai_network_connect_count{id=~\"device/.*\",instance=\"$instance\"}",
           "format": "time_series",
           "instant": false,
           "legendFormat": "{{display}} [{{ip_addr}}]",
@@ -1680,26 +2238,27 @@
         }
       ],
       "title": "历史连接数",
-      "transformations": [],
       "type": "timeseries"
     }
   ],
+  "preload": false,
   "refresh": "10s",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 42,
   "tags": [],
   "templating": {
     "list": [
       {
-        "datasource": {
-          "type": "prometheus",
-          "uid": "bbc4587a-82c3-4a66-bbc8-8dda474c8699"
+        "definition": "label_values(ikuai_version,instance)",
+        "name": "instance",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(ikuai_version,instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
-        "filters": [],
-        "hide": 0,
-        "name": "Filters",
-        "skipUrlSync": false,
-        "type": "adhoc"
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
       }
     ]
   },
