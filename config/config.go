@@ -188,6 +188,9 @@ func (c *Config) matchCronStreamDomain() {
 		if len(slice) > 4 {
 			comment = slice[4]
 		}
+		if len(comment) == 0 {
+			comment = "ikuai-aio"
+		}
 
 		if _, exist := m[id]; !exist {
 			m[id] = &IKuaiCronStreamDomain{
