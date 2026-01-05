@@ -72,18 +72,15 @@ func fetch(url string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
-		if err = resp.Body.Close(); err != nil {
-			logger("fetch", "close body error: %s", err)
-		}
-		return nil, fmt.Errorf("fetch status error: %s", resp.Status)
-	}
-	scanner := bufio.NewScanner(resp.Body)
 	defer func() {
 		if err = resp.Body.Close(); err != nil {
 			logger("defer fetch", "close body error: %s", err)
 		}
 	}()
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		return nil, fmt.Errorf("fetch status error: %s", resp.Status)
+	}
+	scanner := bufio.NewScanner(resp.Body)
 	for scanner.Scan() {
 		rows = append(rows, scanner.Text())
 	}
