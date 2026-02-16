@@ -55,11 +55,7 @@ type CallResp struct {
 // v3: Result=10000 (login) or Result=30000 (call)
 // v4: Code=0
 func (c *CallResp) IsSuccess() bool {
-	// Check for v4 format first (code field present and non-zero, or code=0 with message)
-	if c.Code != 0 {
-		return c.Code == 0
-	}
-	// If code is present but zero, check for v4 indicators
+	// v4 format: success if code == 0 (and message/results fields may be present)
 	if c.Message != "" {
 		return c.Code == 0
 	}
@@ -71,12 +67,11 @@ func (c *CallResp) IsSuccess() bool {
 // v3: Result=10014
 // v4: Code != 0
 func (c *CallResp) IsLoginFailed() bool {
-	if c.Code != 0 {
-		return c.Code != 0
-	}
+	// v4 format: failed if code != 0
 	if c.Message != "" {
 		return c.Code != 0
 	}
+	// v3 format
 	return c.Result == 10014
 }
 
@@ -97,17 +92,28 @@ func (c *CallResp) GetErrMsg() string {
 // GetResult returns result code for compatibility with existing code
 // This is deprecated in favor of IsSuccess() but kept for backward compatibility
 func (c *CallResp) GetResult() int {
-	if c.Code != 0 {
+	// If v4 format (message field present), return v3-equivalent code
+	if c.Message != "" {
 		if c.Code == 0 {
 			return 30000 // v3 equivalent for v4 success
 		}
 		return c.Code
 	}
+	// v3 format - return Result field directly
 	return c.Result
 }
 
 type WebUserShowResp struct {
 	CallResp
+}
+
+// CustomISPItem represents a custom ISP item
+type CustomISPItem struct {
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	IPGroup string `json:"ipgroup"`
+	Comment string `json:"comment"`
+	Time    string `json:"time"`
 }
 
 type CustomISPShowResp struct {
@@ -134,18 +140,30 @@ type CustomISPShowResp struct {
 	} `json:"results,omitempty"`
 }
 
-// GetData returns data from either Data (v3) or Results (v4)
-func (c *CustomISPShowResp) GetData() []interface{} {
+// GetData returns data from either Data (v3) or Results (v4) as typed slice
+func (c *CustomISPShowResp) GetData() []CustomISPItem {
 	if c.Results != nil && c.Results.Data != nil {
-		var result []interface{}
-		for _, v := range c.Results.Data {
-			result = append(result, v)
+		result := make([]CustomISPItem, len(c.Results.Data))
+		for i, v := range c.Results.Data {
+			result[i] = CustomISPItem{
+				ID:      v.ID,
+				Name:    v.Name,
+				IPGroup: v.IPGroup,
+				Comment: v.Comment,
+				Time:    v.Time,
+			}
 		}
 		return result
 	}
-	var result []interface{}
-	for _, v := range c.Data.Data {
-		result = append(result, v)
+	result := make([]CustomISPItem, len(c.Data.Data))
+	for i, v := range c.Data.Data {
+		result[i] = CustomISPItem{
+			ID:      v.ID,
+			Name:    v.Name,
+			IPGroup: v.IPGroup,
+			Comment: v.Comment,
+			Time:    v.Time,
+		}
 	}
 	return result
 }
@@ -156,6 +174,18 @@ type CustomISPDelResp struct {
 
 type CustomISPAddResp struct {
 	CallResp
+}
+
+// StreamDomainItem represents a stream domain item
+type StreamDomainItem struct {
+	ID        int    `json:"id"`
+	Interface string `json:"interface"`
+	SrcAddr   string `json:"src_addr"`
+	Enabled   string `json:"enabled"`
+	Week      string `json:"week"`
+	Comment   string `json:"comment"`
+	Domain    string `json:"domain"`
+	Time      string `json:"time"`
 }
 
 type StreamDomainShowResp struct {
@@ -188,18 +218,36 @@ type StreamDomainShowResp struct {
 	} `json:"results,omitempty"`
 }
 
-// GetData returns data from either Data (v3) or Results (v4)
-func (c *StreamDomainShowResp) GetData() []interface{} {
+// GetData returns data from either Data (v3) or Results (v4) as typed slice
+func (c *StreamDomainShowResp) GetData() []StreamDomainItem {
 	if c.Results != nil && c.Results.Data != nil {
-		var result []interface{}
-		for _, v := range c.Results.Data {
-			result = append(result, v)
+		result := make([]StreamDomainItem, len(c.Results.Data))
+		for i, v := range c.Results.Data {
+			result[i] = StreamDomainItem{
+				ID:        v.ID,
+				Interface: v.Interface,
+				SrcAddr:   v.SrcAddr,
+				Enabled:   v.Enabled,
+				Week:      v.Week,
+				Comment:   v.Comment,
+				Domain:    v.Domain,
+				Time:      v.Time,
+			}
 		}
 		return result
 	}
-	var result []interface{}
-	for _, v := range c.Data.Data {
-		result = append(result, v)
+	result := make([]StreamDomainItem, len(c.Data.Data))
+	for i, v := range c.Data.Data {
+		result[i] = StreamDomainItem{
+			ID:        v.ID,
+			Interface: v.Interface,
+			SrcAddr:   v.SrcAddr,
+			Enabled:   v.Enabled,
+			Week:      v.Week,
+			Comment:   v.Comment,
+			Domain:    v.Domain,
+			Time:      v.Time,
+		}
 	}
 	return result
 }
@@ -249,7 +297,7 @@ type HomepageShowSysStatResp struct {
 				ModelName    string `json:"modelname"`
 				VerString    string `json:"verstring"`
 				Version      string `json:"version"`
-				BuildDate    int64 `json:"build_date"`
+				BuildDate    int64  `json:"build_date"`
 				Arch         string `json:"arch"`
 				SysBit       string `json:"sysbit"`
 				VerFlags     string `json:"verflags"`
@@ -299,7 +347,7 @@ type HomepageShowSysStatResp struct {
 				ModelName    string `json:"modelname"`
 				VerString    string `json:"verstring"`
 				Version      string `json:"version"`
-				BuildDate    int64 `json:"build_date"`
+				BuildDate    int64  `json:"build_date"`
 				Arch         string `json:"arch"`
 				SysBit       string `json:"sysbit"`
 				VerFlags     string `json:"verflags"`
@@ -327,73 +375,73 @@ type MonitorLanIPShowResp struct {
 	CallResp
 	Data struct {
 		Data []struct {
-			ApName       string `json:"apname"`
-			AcGid        int    `json:"ac_gid"`
-			Mac          string `json:"mac"`
-			LinkAddr     string `json:"link_addr"`
-			Hostname     string `json:"hostname"`
-			DTalkName    string `json:"dtalk_name"`
-			DownRate     string `json:"downrate"`
-			Reject       int    `json:"reject"`
-			Uprate       string `json:"uprate"`
+			ApName       string      `json:"apname"`
+			AcGid        int         `json:"ac_gid"`
+			Mac          string      `json:"mac"`
+			LinkAddr     string      `json:"link_addr"`
+			Hostname     string      `json:"hostname"`
+			DTalkName    string      `json:"dtalk_name"`
+			DownRate     string      `json:"downrate"`
+			Reject       int         `json:"reject"`
+			Uprate       string      `json:"uprate"`
 			Signal       interface{} `json:"signal"`
-			ClientType   string `json:"client_type"`
-			Bssid        string `json:"bssid"`
-			AuthType     int    `json:"auth_type"`
-			WebID        int    `json:"webid"`
-			Comment      string `json:"comment"`
-			Username     string `json:"username"`
-			PPPType      string `json:"ppptype"`
-			ApMac        string `json:"apmac"`
-			Upload       int    `json:"upload"`
-			Ssid         string `json:"ssid"`
-			Frequencies  string `json:"frequencies"`
-			Uptime       string `json:"uptime"`
-			Id           int    `json:"id"`
-			IpAddrInt    int64  `json:"ip_addr_int"`
-			ConnectNum   int    `json:"connect_num"`
-			IpAddr       string `json:"ip_addr"`
-			Download     int    `json:"download"`
-			TotalUp      int64  `json:"total_up"`
-			TotalDown    int64  `json:"total_down"`
-			ClientDevice string `json:"client_device"`
-			Timestamp    int    `json:"timestamp"`
+			ClientType   string      `json:"client_type"`
+			Bssid        string      `json:"bssid"`
+			AuthType     int         `json:"auth_type"`
+			WebID        int         `json:"webid"`
+			Comment      string      `json:"comment"`
+			Username     string      `json:"username"`
+			PPPType      string      `json:"ppptype"`
+			ApMac        string      `json:"apmac"`
+			Upload       int         `json:"upload"`
+			Ssid         string      `json:"ssid"`
+			Frequencies  string      `json:"frequencies"`
+			Uptime       string      `json:"uptime"`
+			Id           int         `json:"id"`
+			IpAddrInt    int64       `json:"ip_addr_int"`
+			ConnectNum   int         `json:"connect_num"`
+			IpAddr       string      `json:"ip_addr"`
+			Download     int         `json:"download"`
+			TotalUp      int64       `json:"total_up"`
+			TotalDown    int64       `json:"total_down"`
+			ClientDevice string      `json:"client_device"`
+			Timestamp    int         `json:"timestamp"`
 		} `json:"data"`
 	} `json:"Data"`
 	// v4 format uses "results" instead of "Data"
 	Results *struct {
 		Data []struct {
-			ApName       string `json:"apname"`
-			AcGid        int    `json:"ac_gid"`
-			Mac          string `json:"mac"`
-			LinkAddr     string `json:"link_addr"`
-			Hostname     string `json:"hostname"`
-			DTalkName    string `json:"dtalk_name"`
-			DownRate     string `json:"downrate"`
-			Reject       int    `json:"reject"`
-			Uprate       string `json:"uprate"`
+			ApName       string      `json:"apname"`
+			AcGid        int         `json:"ac_gid"`
+			Mac          string      `json:"mac"`
+			LinkAddr     string      `json:"link_addr"`
+			Hostname     string      `json:"hostname"`
+			DTalkName    string      `json:"dtalk_name"`
+			DownRate     string      `json:"downrate"`
+			Reject       int         `json:"reject"`
+			Uprate       string      `json:"uprate"`
 			Signal       interface{} `json:"signal"`
-			ClientType   string `json:"client_type"`
-			Bssid        string `json:"bssid"`
-			AuthType     int    `json:"auth_type"`
-			WebID        int    `json:"webid"`
-			Comment      string `json:"comment"`
-			Username     string `json:"username"`
-			PPPType      string `json:"ppptype"`
-			ApMac        string `json:"apmac"`
-			Upload       int    `json:"upload"`
-			Ssid         string `json:"ssid"`
-			Frequencies  string `json:"frequencies"`
-			Uptime       string `json:"uptime"`
-			Id           int    `json:"id"`
-			IpAddrInt    int64  `json:"ip_addr_int"`
-			ConnectNum   int    `json:"connect_num"`
-			IpAddr       string `json:"ip_addr"`
-			Download     int    `json:"download"`
-			TotalUp      int64  `json:"total_up"`
-			TotalDown    int64  `json:"total_down"`
-			ClientDevice string `json:"client_device"`
-			Timestamp    int    `json:"timestamp"`
+			ClientType   string      `json:"client_type"`
+			Bssid        string      `json:"bssid"`
+			AuthType     int         `json:"auth_type"`
+			WebID        int         `json:"webid"`
+			Comment      string      `json:"comment"`
+			Username     string      `json:"username"`
+			PPPType      string      `json:"ppptype"`
+			ApMac        string      `json:"apmac"`
+			Upload       int         `json:"upload"`
+			Ssid         string      `json:"ssid"`
+			Frequencies  string      `json:"frequencies"`
+			Uptime       string      `json:"uptime"`
+			Id           int         `json:"id"`
+			IpAddrInt    int64       `json:"ip_addr_int"`
+			ConnectNum   int         `json:"connect_num"`
+			IpAddr       string      `json:"ip_addr"`
+			Download     int         `json:"download"`
+			TotalUp      int64       `json:"total_up"`
+			TotalDown    int64       `json:"total_down"`
+			ClientDevice string      `json:"client_device"`
+			Timestamp    int         `json:"timestamp"`
 		} `json:"data"`
 	} `json:"results,omitempty"`
 }
@@ -437,8 +485,8 @@ type MonitorIFaceShowResp struct {
 			ConnectNum  string `json:"connect_num"`
 			Upload      int    `json:"upload"`
 			Download    int    `json:"download"`
-			TotalUp     int64 `json:"total_up"`
-			TotalDown   int64 `json:"total_down"`
+			TotalUp     int64  `json:"total_up"`
+			TotalDown   int64  `json:"total_down"`
 			UpDropped   int    `json:"updropped"`
 			DownDropped int    `json:"downdropped"`
 			UpPacked    int    `json:"uppacked"`
@@ -448,18 +496,18 @@ type MonitorIFaceShowResp struct {
 	// v4 format uses "results" instead of "Data"
 	Results *struct {
 		IFaceCheck []struct {
-			Id              int    `json:"id"`
-			Interface       string `json:"interface"`
-			ParentInterface string `json:"parent_interface"`
-			IpAddr          string `json:"ip_addr"`
-			Gateway         string `json:"gateway"`
-			Internet        string `json:"internet"`
-			UpdateTime      string `json:"updatetime"`
-			AutoSwitch      string `json:"auto_switch"`
-			Result          string `json:"result"`
-			ErrMsg          string `json:"errmsg"`
-			Comment         string `json:"comment"`
-			Signal         interface{} `json:"signal"`
+			Id              int         `json:"id"`
+			Interface       string      `json:"interface"`
+			ParentInterface string      `json:"parent_interface"`
+			IpAddr          string      `json:"ip_addr"`
+			Gateway         string      `json:"gateway"`
+			Internet        string      `json:"internet"`
+			UpdateTime      string      `json:"updatetime"`
+			AutoSwitch      string      `json:"auto_switch"`
+			Result          string      `json:"result"`
+			ErrMsg          string      `json:"errmsg"`
+			Comment         string      `json:"comment"`
+			Signal          interface{} `json:"signal"`
 		} `json:"iface_check"`
 		IFaceStream []struct {
 			Interface   string `json:"interface"`
@@ -468,8 +516,8 @@ type MonitorIFaceShowResp struct {
 			ConnectNum  string `json:"connect_num"`
 			Upload      int    `json:"upload"`
 			Download    int    `json:"download"`
-			TotalUp     int64 `json:"total_up"`
-			TotalDown   int64 `json:"total_down"`
+			TotalUp     int64  `json:"total_up"`
+			TotalDown   int64  `json:"total_down"`
 			UpDropped   int    `json:"updropped"`
 			DownDropped int    `json:"downdropped"`
 			UpPacked    int    `json:"uppacked"`

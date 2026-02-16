@@ -14,9 +14,9 @@ import (
 type Metrics struct {
 	client *api.Client
 
-	version       *prometheus.Desc
-	up            *prometheus.Desc
-	uptime        *prometheus.Desc
+	version *prometheus.Desc
+	up      *prometheus.Desc
+	uptime  *prometheus.Desc
 
 	cpuUsageRatio  *prometheus.Desc
 	cpuTemperature *prometheus.Desc
@@ -40,7 +40,7 @@ type Metrics struct {
 
 func NewMetrics(namespace string, client *api.Client) *Metrics {
 	return &Metrics{
-		client: client,
+		client:                    client,
 		version:                   prometheus.NewDesc(prometheus.BuildFQName(namespace, "", "version"), "Router version info", []string{"version", "arch", "ver_string"}, nil),
 		up:                        prometheus.NewDesc(prometheus.BuildFQName(namespace, "", "up"), "Router up status", []string{"id"}, nil),
 		uptime:                    prometheus.NewDesc(prometheus.BuildFQName(namespace, "", "uptime"), "Router uptime in seconds", []string{"id"}, nil),
@@ -112,6 +112,12 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 	homepageShowSysStatResp, err := m.client.HomepageShowSysStat()
 	if err != nil {
 		log.Printf("Error getting homepage sysstat: %v", err)
+		ch <- prometheus.MustNewConstMetric(
+			m.up,
+			prometheus.GaugeValue,
+			0,
+			"host",
+		)
 		return
 	}
 
@@ -161,7 +167,7 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			ModelName    string `json:"modelname"`
 			VerString    string `json:"verstring"`
 			Version      string `json:"version"`
-			BuildDate    int64 `json:"build_date"`
+			BuildDate    int64  `json:"build_date"`
 			Arch         string `json:"arch"`
 			SysBit       string `json:"sysbit"`
 			VerFlags     string `json:"verflags"`
@@ -252,7 +258,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			float64(sysStat.Uptime),
 			"host",
 		)
-		log.Printf("Uptime: %d seconds", sysStat.Uptime)
 	}
 
 	// CPU metrics - export each core separately
@@ -274,7 +279,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(sysStat.CpuTemp[0]),
 		)
-		log.Printf("CPU temperature: %d°C", sysStat.CpuTemp[0])
 	}
 
 	// Memory metrics
@@ -299,12 +303,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(sysStat.Memory.Buffers),
 		)
-		log.Printf("Memory: Total: %d KB, Used: %d KB, Cached: %d KB, Available: %d KB",
-			sysStat.Memory.Total/1024,
-			(sysStat.Memory.Total-sysStat.Memory.Available)/1024,
-			sysStat.Memory.Cached/1024,
-			sysStat.Memory.Available/1024,
-		)
 	}
 
 	// Collect interface metrics
@@ -323,7 +321,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 					if ifaceCheck, ok := dataMap["iface_check"].([]interface{}); ok {
 						for _, iface := range ifaceCheck {
 							if ifaceMap, ok := iface.(map[string]interface{}); ok {
-								id := getJSONString(ifaceMap, "id")
 								interfaceName := getJSONString(ifaceMap, "interface")
 								comment := getJSONString(ifaceMap, "comment")
 								internet := getJSONString(ifaceMap, "internet")
@@ -333,6 +330,9 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 								if display == "" {
 									display = interfaceName
 								}
+
+								// Use interface/<name> format for consistency with other interface metrics
+								id := fmt.Sprintf("interface/%s", interfaceName)
 
 								ch <- prometheus.MustNewConstMetric(
 									m.interfaceInfo,
@@ -428,7 +428,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 			}()
 			lanData := monitorLanIPShowResp.GetData()
 			deviceCount = len(lanData)
-			log.Printf("Found %d LAN devices", deviceCount)
 			for i, device := range lanData {
 				func() {
 					defer func() {
@@ -477,35 +476,36 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 					downloadSpeed := getJSONInt(deviceMap, "download")
 					connectNum := getJSONInt(deviceMap, "connect_num")
 
+					// Use deviceId (device/<id>) for consistency with device_info metric
 					ch <- prometheus.MustNewConstMetric(
 						m.networkUploadTotalBytes,
 						prometheus.CounterValue,
 						float64(uploadTotal),
-						id, display, ipAddr,
+						deviceId, display, ipAddr,
 					)
 					ch <- prometheus.MustNewConstMetric(
 						m.networkDownloadTotalBytes,
 						prometheus.CounterValue,
 						float64(downloadTotal),
-						id, display, ipAddr,
+						deviceId, display, ipAddr,
 					)
 					ch <- prometheus.MustNewConstMetric(
 						m.networkUploadSpeedBytes,
 						prometheus.GaugeValue,
 						float64(uploadSpeed),
-						id, display, ipAddr,
+						deviceId, display, ipAddr,
 					)
 					ch <- prometheus.MustNewConstMetric(
 						m.networkDownloadSpeedBytes,
 						prometheus.GaugeValue,
 						float64(downloadSpeed),
-						id, display, ipAddr,
+						deviceId, display, ipAddr,
 					)
 					ch <- prometheus.MustNewConstMetric(
 						m.networkConnectCount,
 						prometheus.GaugeValue,
 						float64(connectNum),
-						id, display, ipAddr,
+						deviceId, display, ipAddr,
 					)
 				}()
 			}
@@ -518,9 +518,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 		prometheus.GaugeValue,
 		float64(deviceCount),
 	)
-
-	log.Printf("Metrics collection completed. Devices: %d, Online Users: %d",
-		deviceCount, sysStat.OnlineUser.Count)
 }
 
 func getMapKeys(m map[string]interface{}) []string {
@@ -620,5 +617,6 @@ func parseCPUUsage(cpuStr string) (float64, error) {
 	if err != nil {
 		return 0, fmt.Errorf("invalid CPU format: %s", cpuStr)
 	}
-	return val, nil
+	// Convert from percent (e.g., 6 for "6%") to ratio (e.g., 0.06) to match cpuUsageRatio semantics.
+	return val / 100, nil
 }
