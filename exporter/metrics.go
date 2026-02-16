@@ -469,7 +469,6 @@ func (m *Metrics) Collect(ch chan<- prometheus.Metric) {
 					)
 
 					// Export network metrics for each device
-					display = ipAddr
 					uploadTotal := getJSONInt64(deviceMap, "total_up")
 					downloadTotal := getJSONInt64(deviceMap, "total_down")
 					uploadSpeed := getJSONInt(deviceMap, "upload")
