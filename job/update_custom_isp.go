@@ -7,6 +7,15 @@ import (
 	"github.com/NERVEbing/ikuai-aio/config"
 )
 
+// CustomISPItem represents a custom ISP item (same as in api package)
+type CustomISPItem struct {
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	IPGroup string `json:"ipgroup"`
+	Comment string `json:"comment"`
+	Time    string `json:"time"`
+}
+
 func updateCustomISP(c *config.IKuaiCronCustomISP, tag string) error {
 	var rows []string
 	start := time.Now()
@@ -33,9 +42,9 @@ func updateCustomISP(c *config.IKuaiCronCustomISP, tag string) error {
 		return err
 	}
 	var ids []int
-	for _, i := range customISPShowResp.Data.Data {
-		if i.Name == c.Name {
-			ids = append(ids, i.ID)
+	for _, i := range customISPShowResp.GetData() {
+		if v, ok := i.(CustomISPItem); ok && v.Name == c.Name {
+			ids = append(ids, v.ID)
 		}
 	}
 	if err = client.CustomISPDel(ids); err != nil {

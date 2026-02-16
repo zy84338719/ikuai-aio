@@ -15,6 +15,7 @@ type Client struct {
 	iKuaiAddr     string
 	iKuaiUsername string
 	iKuaiPassword string
+	version       IKuaiVersion // detected iKuai OS version
 	Http          *http.Client
 }
 
@@ -28,6 +29,7 @@ func NewClient() *Client {
 		iKuaiAddr:     conf.IKuaiAddr,
 		iKuaiUsername: conf.IKuaiUsername,
 		iKuaiPassword: conf.IKuaiPassword,
+		version:       VersionUnknown,
 		Http: &http.Client{
 			Transport: &http.Transport{
 				TLSClientConfig: &tls.Config{
@@ -38,6 +40,16 @@ func NewClient() *Client {
 			Timeout: conf.HttpTimeout,
 		},
 	}
+}
+
+// GetVersion returns the detected iKuai OS version
+func (c *Client) GetVersion() IKuaiVersion {
+	return c.version
+}
+
+// SetVersion sets the iKuai OS version (for testing purposes)
+func (c *Client) SetVersion(version IKuaiVersion) {
+	c.version = version
 }
 
 func (c *Client) request(path string, body []byte) ([]byte, error) {

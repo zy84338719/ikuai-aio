@@ -25,8 +25,17 @@ func (c *Client) Login() error {
 	if err = json.Unmarshal(resp, &mod); err != nil {
 		return err
 	}
-	if mod.Result != 10000 {
-		return errors.New(mod.ErrMsg)
+
+	// Auto-detect version based on response format
+	if mod.IsV4() {
+		c.version = VersionV4
+	} else {
+		c.version = VersionV3
+	}
+
+	// Check for login success using IsSuccess()
+	if !mod.IsSuccess() {
+		return errors.New(mod.GetErrMsg())
 	}
 
 	return nil
@@ -37,7 +46,9 @@ func (c *Client) IsLogin() bool {
 	if err != nil {
 		return false
 	}
-	if r.Result == 10014 {
+
+	// Check if login failed using IsLoginFailed()
+	if r.IsLoginFailed() {
 		return false
 	}
 

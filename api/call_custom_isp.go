@@ -28,8 +28,8 @@ func (c *Client) CustomISPShow() (*CustomISPShowResp, error) {
 	if err = json.Unmarshal(resp, &mod); err != nil {
 		return nil, err
 	}
-	if mod.Result != 30000 {
-		return nil, errors.New(mod.ErrMsg)
+	if !mod.IsSuccess() {
+		return nil, errors.New(mod.GetErrMsg())
 	}
 
 	return &mod, nil

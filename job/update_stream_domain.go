@@ -7,6 +7,18 @@ import (
 	"github.com/NERVEbing/ikuai-aio/config"
 )
 
+// StreamDomainItem represents a stream domain item (same as in api package)
+type StreamDomainItem struct {
+	ID        int    `json:"id"`
+	Interface string `json:"interface"`
+	SrcAddr   string `json:"src_addr"`
+	Enabled   string `json:"enabled"`
+	Week      string `json:"week"`
+	Comment   string `json:"comment"`
+	Domain    string `json:"domain"`
+	Time      string `json:"time"`
+}
+
 func updateStreamDomain(c *config.IKuaiCronStreamDomain, tag string) error {
 	var rows []string
 	start := time.Now()
@@ -33,9 +45,9 @@ func updateStreamDomain(c *config.IKuaiCronStreamDomain, tag string) error {
 		return err
 	}
 	var ids []int
-	for _, i := range StreamDomainResp.Data.Data {
-		if i.Comment == c.Comment {
-			ids = append(ids, i.ID)
+	for _, i := range StreamDomainResp.GetData() {
+		if v, ok := i.(StreamDomainItem); ok && v.Comment == c.Comment {
+			ids = append(ids, v.ID)
 		}
 	}
 	if err = client.StreamDomainDel(ids); err != nil {
