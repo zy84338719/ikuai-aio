@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/NERVEbing/ikuai-aio/api"
 	"github.com/NERVEbing/ikuai-aio/config"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -17,7 +18,8 @@ func Run(c *config.Config) error {
 	}
 	listenAddr := c.IKuaiExporterListenAddr
 	metricsPath := "/metrics"
-	metrics := NewMetrics("ikuai")
+	client := api.NewClient()
+	metrics := NewMetrics("ikuai", client)
 	registry := prometheus.NewRegistry()
 	registry.MustRegister(metrics)
 

@@ -336,7 +336,7 @@ type MonitorLanIPShowResp struct {
 			DownRate     string `json:"downrate"`
 			Reject       int    `json:"reject"`
 			Uprate       string `json:"uprate"`
-			Signal       string `json:"signal"`
+			Signal       interface{} `json:"signal"`
 			ClientType   string `json:"client_type"`
 			Bssid        string `json:"bssid"`
 			AuthType     int    `json:"auth_type"`
@@ -372,7 +372,7 @@ type MonitorLanIPShowResp struct {
 			DownRate     string `json:"downrate"`
 			Reject       int    `json:"reject"`
 			Uprate       string `json:"uprate"`
-			Signal       string `json:"signal"`
+			Signal       interface{} `json:"signal"`
 			ClientType   string `json:"client_type"`
 			Bssid        string `json:"bssid"`
 			AuthType     int    `json:"auth_type"`
@@ -459,6 +459,7 @@ type MonitorIFaceShowResp struct {
 			Result          string `json:"result"`
 			ErrMsg          string `json:"errmsg"`
 			Comment         string `json:"comment"`
+			Signal         interface{} `json:"signal"`
 		} `json:"iface_check"`
 		IFaceStream []struct {
 			Interface   string `json:"interface"`

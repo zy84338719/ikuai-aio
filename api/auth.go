@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"log"
 )
 
 func (c *Client) Login() error {
@@ -29,8 +30,10 @@ func (c *Client) Login() error {
 	// Auto-detect version based on response format
 	if mod.IsV4() {
 		c.version = VersionV4
+		log.Println("Detected iKuai OS version: v4")
 	} else {
 		c.version = VersionV3
+		log.Println("Detected iKuai OS version: v3")
 	}
 
 	// Check for login success using IsSuccess()

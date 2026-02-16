@@ -6,21 +6,18 @@ import (
 	"github.com/NERVEbing/ikuai-aio/config"
 	"github.com/NERVEbing/ikuai-aio/exporter"
 	"github.com/NERVEbing/ikuai-aio/job"
-	"golang.org/x/sync/errgroup"
 )
 
 func main() {
 	c := config.Load()
-	eg := errgroup.Group{}
 
-	eg.Go(func() error {
-		return job.Run(c)
-	})
-	eg.Go(func() error {
-		return exporter.Run(c)
-	})
+	go func() {
+		if err := job.Run(c); err != nil {
+			log.Println("Job error:", err)
+		}
+	}()
 
-	if err := eg.Wait(); err != nil {
+	if err := exporter.Run(c); err != nil {
 		log.Fatalln(err)
 	}
 }
