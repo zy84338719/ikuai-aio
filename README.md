@@ -35,7 +35,6 @@
 ---
 
 ### 使用方法
-
 1. 登录iKuai -> 系统设置 -> 登录管理 -> 账号设置 -> 添加
 2. 根据情况填入用户名密码
 3. 确保`默认权限`为`新功能可读写`
@@ -43,11 +42,34 @@
 5. 如需运行流控相关定时任务则勾选`流控分流`一行的`修改`权限
 6. 保存退出
 
-#### 环境变量
+### 版本兼容性
+本项目支持 **iKuai OS v3 和 v4** 的自动检测和兼容，无需手动配置。
+
+#### 版本检测
+程序在登录时自动检测路由器版本：
+- **v3** 检测依据：响应中不包含 `message` 字段
+- **v4** 检测依据：响应中包含 `message` 字段
+
+#### API 格式差异
+
+| 项目 | v3 格式 | v4 格式 |
+|------|----------|----------|
+| 响应状态码 | `Result: 10000` (登录)<br>`Result: 30000` (调用) | `code: 0` |
+| 错误信息 | `ErrMsg: "..."` | `message: "..."` |
+| 数据字段 | `Data: {...}` | `results: {...}` |
+| 登录失败 | `Result: 10014` | `code: <error_code>` |
+
+#### 支持的 iKuai OS 版本
+- iKuai OS 3.x.x（v3 API）
+- iKuai OS 4.0.x 及以上（v4 API）
+
+---
+
+### 环境变量
 
 查看 [docker-compose.yml](deploy/docker-compose.yml)
 
-#### 启动服务
+### 启动服务
 
 ```shell
 mkdir ikuai-aio && cd ikuai-aio
@@ -56,7 +78,7 @@ wget https://raw.githubusercontent.com/NERVEbing/ikuai-aio/master/deploy/docker-
 docker compose up -d
 ```
 
-#### 导入 Grafana 面板
+### 导入 Grafana 面板
 
 查看 [Grafana Dashboard](https://grafana.com/grafana/dashboards/19247-ikuai/) 或直接导入面板ID: `19247`
 
@@ -75,7 +97,7 @@ docker compose up -d
 | memory_buffers_kilo_bytes    | ikuai_memory_buffers_kilo_bytes 136664                                                                                                                                               |
 | interface_info               | ikuai_interface_info{comment="",display="wan1",id="interface/wan1",interface="wan1",internet="PPPOE",ip_addr="xxx.xx.xxx.xx",parent_interface="wan1"} 1                              |
 | device_count                 | ikuai_device_count 26                                                                                                                                                                |
-| device_info                  | ikuai_device_info{comment="home-light-mi",display="home-light-mi",hostname="yeelink-light-lamp4_mibt1A2D",id="device/192.168.3.57",ip_addr="192.168.3.57",mac="xx:xx:xx:xx:xx:xx"} 1 |
+| device_info                  | ikuai_device_info{comment="home-light-mi",display="home-light-mi",hostname="yeelink-light-lamp4_mibt1A2D",id="device/192.168.3.57",ip_addr="192.168.3.57",mac="xx:xx:xx:xx"} 1 |
 | network_upload_total_bytes   | ikuai_network_upload_total_bytes{display="home-light-mi",id="device/192.168.3.57"} 7.718279e+06                                                                                      |
 | network_download_total_bytes | ikuai_network_download_total_bytes{display="home-light-mi",id="device/192.168.3.57"} 7.008623e+06                                                                                    |
 | network_upload_speed_bytes   | ikuai_network_upload_speed_bytes{display="home-light-mi",id="device/192.168.3.57"} 0                                                                                                 |
