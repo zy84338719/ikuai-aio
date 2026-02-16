@@ -108,7 +108,7 @@ docker compose up -d
 
 ### 致谢
 
-[joyanhui/ikuai-bypass](https://github.com/joyanhui/ikuai-bypass)
+[ztc1997/ikuai-bypass](https://github.com/ztc1997/ikuai-bypass)
 
 [jakeslee/ikuai-exporter](https://github.com/jakeslee/ikuai-exporter)
 
