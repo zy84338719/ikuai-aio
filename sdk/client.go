@@ -10,8 +10,8 @@ import (
 	"net/http/cookiejar"
 	"time"
 
-	"github.com/zy84338719/ikuai-aio/sdk/internal"
-	"github.com/zy84338719/ikuai-aio/sdk/types"
+	"github.com/zy84338719/ikuai-api/internal"
+	"github.com/zy84338719/ikuai-api/types"
 )
 
 type Client struct {

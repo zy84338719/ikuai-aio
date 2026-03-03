@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/zy84338719/ikuai-aio/sdk/types"
+	"github.com/zy84338719/ikuai-api/types"
 )
 
 func TestBaseResponseIsV4(t *testing.T) {

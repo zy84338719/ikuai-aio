@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	ikuaisdk "github.com/zy84338719/ikuai-aio/sdk"
-	"github.com/zy84338719/ikuai-aio/sdk/service"
+	ikuaisdk "github.com/zy84338719/ikuai-api"
+	"github.com/zy84338719/ikuai-api/service"
 )
 
 func getTestConfig() (string, string, string) {

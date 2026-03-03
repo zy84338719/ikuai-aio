@@ -3,8 +3,8 @@ package ikuaisdk
 import (
 	"context"
 
-	"github.com/zy84338719/ikuai-aio/sdk/internal"
-	"github.com/zy84338719/ikuai-aio/sdk/types"
+	"github.com/zy84338719/ikuai-api/internal"
+	"github.com/zy84338719/ikuai-api/types"
 )
 
 func (c *Client) Login(ctx context.Context) error {

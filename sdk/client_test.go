@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	ikuaisdk "github.com/zy84338719/ikuai-aio/sdk"
+	ikuaisdk "github.com/zy84338719/ikuai-api"
 )
 
 func TestNewClient(t *testing.T) {

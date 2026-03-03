@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	ikuaisdk "github.com/zy84338719/ikuai-aio/sdk"
+	ikuaisdk "github.com/zy84338719/ikuai-api"
 )
 
 func main() {

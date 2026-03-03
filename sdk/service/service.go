@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	ikuaisdk "github.com/zy84338719/ikuai-aio/sdk"
-	"github.com/zy84338719/ikuai-aio/sdk/types"
+	ikuaisdk "github.com/zy84338719/ikuai-api"
+	"github.com/zy84338719/ikuai-api/types"
 )
 
 type MonitorService struct {
