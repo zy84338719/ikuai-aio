@@ -31,7 +31,7 @@ sdk/
 ## 安装
 
 ```bash
-go get github.com/ikuai-sdk
+go get github.com/zy84338719/ikuai-api
 ```
 
 ## 快速开始
@@ -46,7 +46,7 @@ import (
     "fmt"
     "time"
 
-    ikuaisdk "github.com/ikuai-sdk"
+    ikuaisdk "github.com/zy84338719/ikuai-api"
 )
 
 func main() {
@@ -111,7 +111,7 @@ for _, device := range resp.GetData() {
 ### 使用服务模块
 
 ```go
-import "github.com/ikuai-sdk/api"
+import "github.com/zy84338719/ikuai-api/service"
 
 // 创建系统服务
 systemSvc := api.NewSystemService(client)
